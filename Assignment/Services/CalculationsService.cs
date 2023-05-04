@@ -10,7 +10,7 @@
     }
 
 
-    public class CalculationsService
+    public class CalculationsService : ICalculationsService
     {
     }
 }
