@@ -26,11 +26,10 @@ namespace Assignment
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
+         
+            app.RegisterEndpoints();
 
             app.UseAuthorization();
-
-            app.RegisterEndpoints();
 
             //app.MapControllers();
 
