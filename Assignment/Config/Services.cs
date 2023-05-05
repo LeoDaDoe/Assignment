@@ -2,9 +2,9 @@
 
 namespace Assignment.Config
 {
-    public class Services
+    public static class Services
     {
-        public IServiceCollection RegisterServices(IServiceCollection services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddTransient<ICalculationsService, CalculationsService>();
             return services;

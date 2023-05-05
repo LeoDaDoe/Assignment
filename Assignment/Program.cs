@@ -1,3 +1,5 @@
+using Assignment.Config;
+
 namespace Assignment
 {
     public class Program
@@ -6,15 +8,16 @@ namespace Assignment
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.RegisterServices();
 
+            // Add services to the container.
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -23,12 +26,14 @@ namespace Assignment
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
 
             app.UseAuthorization();
 
+            app.RegisterEndpoints();
 
-            app.MapControllers();
-            app.UseRouting();
+            //app.MapControllers();
+
 
             app.Run();
         }

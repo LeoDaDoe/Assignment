@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Assignment.Controllers
 {
-    [Route("api/numbers")]
+    [Route("api/file")]
     [ApiController]
-    public class CalculationsController : ControllerBase
+    public class FileController : ControllerBase
     {
+
         readonly ICalculationsService calculationsService;
-        public CalculationsController(ICalculationsService calculationsService)
+        public FileController(ICalculationsService calculationsService)
         {
             this.calculationsService = calculationsService;
         }
 
-        [HttpPut("submitnumbers",Name = "submitnumbers")]
-        public ActionResult SubmitNumbers([FromBody] string numbers)
+        [HttpGet("fetchfile")]
+        public ActionResult FetchLastFile()
         {
             try
             {
-
                 return Ok();
             }
             catch (Exception)
@@ -27,8 +27,8 @@ namespace Assignment.Controllers
 
                 throw;
             }
-        }
 
+        }
 
 
     }

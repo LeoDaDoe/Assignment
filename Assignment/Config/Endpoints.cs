@@ -1,8 +1,8 @@
 ﻿namespace Assignment.Config
 {
-    public class Endpoints
+    public static class Endpoints
     {
-        public IEndpointRouteBuilder RegisterEndpoints(IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder RegisterEndpoints(this IEndpointRouteBuilder builder)
         {
             builder.MapControllerRoute(
                 name: "Calculations",

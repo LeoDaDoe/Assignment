@@ -1,16 +1,21 @@
 ﻿namespace Assignment.Services
 {
 
-    interface ICalculationsService
+    public interface ICalculationsService
     {
-
-
-
-
+        void ProcessNumbers(string numbers);
     }
 
 
     public class CalculationsService : ICalculationsService
     {
+        public CalculationsService() { }
+
+        public void ProcessNumbers(string numbers)
+        {
+        }
+
+
+
     }
 }
