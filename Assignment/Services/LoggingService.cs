@@ -17,9 +17,9 @@
         {
             using (StreamWriter resultFile = new StreamWriter("results/performance.txt", false))
             {
-                resultFile.WriteLine("Insertion sort: " + times[0].ToString());
-                resultFile.WriteLine("Counting sort: " + times[1].ToString());
-                resultFile.WriteLine("Bubble sort: " + times[2].ToString());
+                resultFile.WriteLine("Insertion sort: " + times[0].ToString()+ " ms");
+                resultFile.WriteLine("Counting sort: " + times[1].ToString() + " ms");
+                resultFile.WriteLine("Bubble sort: " + times[2].ToString() + " ms");
             }
         }
 
