@@ -14,7 +14,7 @@ namespace Assignment.Controllers
             this.calculationsService = calculationsService;
         }
 
-        [HttpPut("submitnumbers",Name = "submitnumbers")]
+        [HttpPut("submitnumbers",Name = "SubmitNumbers")]
         public ActionResult SubmitNumbers([FromBody] string numbers)
         {
             try
@@ -22,12 +22,23 @@ namespace Assignment.Controllers
                 calculationsService.ProcessNumbers(numbers);
                 return Ok();
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("fetchlastsortresult",Name ="FetchLastSortResult")]
+        public ActionResult FetchLastSortResult()
+        {
+            try
+            {     
+                return Ok(calculationsService.FetchLastSortResult());
+            }
             catch (Exception)
             {
                 throw;
             }
         }
-
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Assignment.Services
 {
@@ -7,6 +8,7 @@ namespace Assignment.Services
     public interface ICalculationsService
     {
         void ProcessNumbers(string numbers);
+        string? FetchLastSortResult();
     }
 
 
@@ -19,6 +21,7 @@ namespace Assignment.Services
         }
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
+        private readonly Regex numberValidation = new Regex("-?\\d+");
 
         private int[] InsertionSort(int[] numbers)
         {
@@ -108,13 +111,16 @@ namespace Assignment.Services
             return numbers;
         }
 
-
         private int[] ParseNumbers(string numbers)
-        {
-            return numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
+        {       
+            return numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();       
         }
-
-
+        private string SanitizeNumbers(string numbers)
+        {
+            MatchCollection matches = numberValidation.Matches(numbers);
+            if (matches.Count == 0) throw new ArgumentException("Invalid numbers supplied");
+            return string.Join(" ", matches.Select(m=>m.Value));
+        }
 
         private void MeasurePerformance(string numbers)
         {
@@ -145,28 +151,36 @@ namespace Assignment.Services
         public void ProcessNumbers(string numbers)
         {
             int[] sortedNumbers;
+            string sanitizedNumbers;
 
-            sortedNumbers = InsertionSort(ParseNumbers(numbers));
+            try
+            {
+                sanitizedNumbers = SanitizeNumbers(numbers);
 
-            //Debug.WriteLine("Insertion sort");
-            //foreach (int number in InsertionSort(parsedNumbers))
-            //{
-            //    System.Diagnostics.Debug.WriteLine(number);
-            //}
-            //Debug.WriteLine("Counting sort");
-            //foreach (int number in CountingSort(parsedNumbers))
-            //{
-            //    System.Diagnostics.Debug.WriteLine(number);
-            //}
-            //Debug.WriteLine("Bubble sort");
-            //foreach (int number in BubbleSort(parsedNumbers))
-            //{
-            //    System.Diagnostics.Debug.WriteLine(number);
-            //}
-            MeasurePerformance(numbers);
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            sortedNumbers = InsertionSort(ParseNumbers(sanitizedNumbers));
+
+            MeasurePerformance(sanitizedNumbers);
             loggingService.LogSortResult(sortedNumbers);
 
         }
 
+        public string? FetchLastSortResult()
+        {
+            string? lastSort;
+            if (System.IO.File.Exists("results/sort.txt"))
+            {
+                using (StreamReader resultFile = new StreamReader("results/sort.txt"))
+                {
+                    lastSort = resultFile.ReadLine();
+                }
+                return lastSort;
+            }
+            return string.Empty;
+        }
     }
 }

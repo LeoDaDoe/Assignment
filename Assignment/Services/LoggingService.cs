@@ -25,7 +25,6 @@
 
         public void LogSortResult(int[] sortedNumbers)
         {
-
             using (StreamWriter resultFile = new StreamWriter("results/sort.txt", false))
             {
                 resultFile.WriteLine(string.Join(' ', sortedNumbers.Select(n => n.ToString()).ToArray()));
