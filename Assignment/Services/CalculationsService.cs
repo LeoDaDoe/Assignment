@@ -12,15 +12,21 @@ namespace Assignment.Services
 
     public class CalculationsService : ICalculationsService
     {
-        private readonly Stopwatch _stopwatch = new Stopwatch();
-
-        private int[] ParseNumbers(string numbers)
+        ILoggingService loggingService;
+        public CalculationsService(ILoggingService loggingService)
         {
-            return numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
+            this.loggingService = loggingService;
         }
+
+        private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private int[] InsertionSort(int[] numbers)
         {
+            Debug.WriteLine("Insertion sort");
+            foreach (int number in numbers)
+            {
+                System.Diagnostics.Debug.WriteLine(number);
+            }
             int currentElement, iterationIndex;
 
             for (int i = 1; i < numbers.Length; ++i)
@@ -28,19 +34,20 @@ namespace Assignment.Services
                 currentElement = numbers[i];
                 iterationIndex = i - 1;
 
-                while(iterationIndex >= 0 && currentElement < numbers[iterationIndex])
+                while (iterationIndex >= 0 && currentElement < numbers[iterationIndex])
                 {
-                    numbers[iterationIndex+1] = numbers[iterationIndex];
+                    numbers[iterationIndex + 1] = numbers[iterationIndex];
                     iterationIndex--;
 
                 }
-                numbers[iterationIndex+1] = currentElement;
+                numbers[iterationIndex + 1] = currentElement;
             }
             return numbers;
 
         }
         private int[] CountingSort(int[] numbers)
         {
+
             Dictionary<int, int> occurrences;
             int maxValue, minValue;
 
@@ -78,14 +85,14 @@ namespace Assignment.Services
             else if (numbers.Length == 2 && numbers[0] > numbers[1])
                 (numbers[0], numbers[1]) = (numbers[1], numbers[0]);
             else
-            while (true)
-            {
+                while (true)
+                {
                     if (numbers[index] > numbers[index + 1])
                     {
                         (numbers[index], numbers[index + 1]) = (numbers[index + 1], numbers[index]);
                         sorting = true;
                     }
-                    if (index + 1 == numbers.Length-1)
+                    if (index + 1 == numbers.Length - 1)
                     {
                         if (sorting == true)
                         {
@@ -95,35 +102,71 @@ namespace Assignment.Services
                         else break;
                     }
                     else
-                    index++;
+                        index++;
 
-            }
+                }
             return numbers;
         }
 
 
+        private int[] ParseNumbers(string numbers)
+        {
+            return numbers.Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
+        }
+
+
+
+        private void MeasurePerformance(string numbers)
+        {
+            long[] elapsedTime = new long[3];
+
+            _stopwatch.Start();
+            _ = InsertionSort(ParseNumbers(numbers));
+            _stopwatch.Stop();
+            elapsedTime[0] = _stopwatch.ElapsedMilliseconds;
+            _stopwatch.Restart();
+
+            _stopwatch.Start();
+            _ = CountingSort(ParseNumbers(numbers));
+            _stopwatch.Stop();
+            elapsedTime[1] = _stopwatch.ElapsedMilliseconds;
+            _stopwatch.Restart();
+
+            _stopwatch.Start();
+            _ = BubbleSort(ParseNumbers(numbers));
+            _stopwatch.Stop();
+            elapsedTime[2] = _stopwatch.ElapsedMilliseconds;
+            _stopwatch.Restart();
+
+            loggingService.LogPerformance(elapsedTime);
+
+        }
 
         public void ProcessNumbers(string numbers)
         {
-            int[] parsedNumbers;
+            int[] sortedNumbers;
 
-            parsedNumbers = ParseNumbers(numbers);
+            sortedNumbers = InsertionSort(ParseNumbers(numbers));
 
-            Debug.WriteLine("Insertion sort");
-            foreach (int number in InsertionSort(parsedNumbers))
-            {
-                System.Diagnostics.Debug.WriteLine(number);
-            }
-            Debug.WriteLine("Counting sort");
-            foreach (int number in CountingSort(parsedNumbers))
-            {
-                System.Diagnostics.Debug.WriteLine(number);
-            }
-            Debug.WriteLine("Bubble sort");
-            foreach (int number in BubbleSort(parsedNumbers))
-            {
-                System.Diagnostics.Debug.WriteLine(number);
-            }
+            //Debug.WriteLine("Insertion sort");
+            //foreach (int number in InsertionSort(parsedNumbers))
+            //{
+            //    System.Diagnostics.Debug.WriteLine(number);
+            //}
+            //Debug.WriteLine("Counting sort");
+            //foreach (int number in CountingSort(parsedNumbers))
+            //{
+            //    System.Diagnostics.Debug.WriteLine(number);
+            //}
+            //Debug.WriteLine("Bubble sort");
+            //foreach (int number in BubbleSort(parsedNumbers))
+            //{
+            //    System.Diagnostics.Debug.WriteLine(number);
+            //}
+            MeasurePerformance(numbers);
+            loggingService.LogSortResult(sortedNumbers);
+
         }
+
     }
 }
