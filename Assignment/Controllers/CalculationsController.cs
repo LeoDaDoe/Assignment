@@ -19,12 +19,11 @@ namespace Assignment.Controllers
         {
             try
             {
-
+                calculationsService.ProcessNumbers(numbers);
                 return Ok();
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
