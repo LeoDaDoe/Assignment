@@ -8,8 +8,8 @@ namespace Assignment.Controllers
     [ApiController]
     public class CalculationsController : ControllerBase
     {
-        readonly ICalculationsService calculationsService;
-        public CalculationsController(ICalculationsService calculationsService)
+        readonly IApiRequestProcessingService calculationsService;
+        public CalculationsController(IApiRequestProcessingService calculationsService)
         {
             this.calculationsService = calculationsService;
         }
