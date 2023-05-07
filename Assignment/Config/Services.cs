@@ -10,7 +10,7 @@ namespace Assignment.Config
             services.AddTransient<ILoggingService, LoggingService>();
             services.AddTransient<ISortingService, SortingService>();
             services.AddTransient<IApiRequestProcessingService, ApiRequestProcessingService>();
-            services.AddTransient<IApiInputValidationService, ApiInputValidationService>();
+            services.AddTransient<IInputValidationService, InputValidationService>();
             return services;
         }
     }

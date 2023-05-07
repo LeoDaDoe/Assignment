@@ -16,8 +16,8 @@ namespace Assignment.Services
     {
         ILoggingService loggingService;
         ISortingService sortingService;
-        IApiInputValidationService inputValidationService;
-        public ApiRequestProcessingService(ILoggingService loggingService, ISortingService sortingService, IApiInputValidationService inputValidationService)
+        IInputValidationService inputValidationService;
+        public ApiRequestProcessingService(ILoggingService loggingService, ISortingService sortingService, IInputValidationService inputValidationService)
         {
             this.loggingService = loggingService;
             this.sortingService = sortingService;
@@ -31,19 +31,19 @@ namespace Assignment.Services
             long[] elapsedTime = new long[3];
 
             _stopwatch.Start();
-            _ = sortingService.InsertionSort(inputValidationService.ParseNumbers(numbers));
+            _ = sortingService.InsertionSort(inputValidationService.ConvertToIntArray(numbers));
             _stopwatch.Stop();
             elapsedTime[0] = _stopwatch.ElapsedMilliseconds;
             _stopwatch.Restart();
 
             _stopwatch.Start();
-            _ = sortingService.CountingSort(inputValidationService.ParseNumbers(numbers));
+            _ = sortingService.CountingSort(inputValidationService.ConvertToIntArray(numbers));
             _stopwatch.Stop();
             elapsedTime[1] = _stopwatch.ElapsedMilliseconds;
             _stopwatch.Restart();
 
             _stopwatch.Start();
-            _ = sortingService.BubbleSort(inputValidationService.ParseNumbers(numbers));
+            _ = sortingService.BubbleSort(inputValidationService.ConvertToIntArray(numbers));
             _stopwatch.Stop();
             elapsedTime[2] = _stopwatch.ElapsedMilliseconds;
             _stopwatch.Restart();
@@ -66,7 +66,7 @@ namespace Assignment.Services
             {
                 throw;
             }
-            sortedNumbers = sortingService.InsertionSort(inputValidationService.ParseNumbers(sanitizedNumbers));
+            sortedNumbers = sortingService.InsertionSort(inputValidationService.ConvertToIntArray(sanitizedNumbers));
 
             MeasurePerformance(sanitizedNumbers);
             loggingService.LogSortResult(sortedNumbers);

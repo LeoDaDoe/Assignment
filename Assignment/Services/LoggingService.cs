@@ -10,7 +10,7 @@
     public class LoggingService : ILoggingService
     {
         public LoggingService() {
-            System.IO.Directory.CreateDirectory("results");
+            Directory.CreateDirectory("results");
         }
 
         public void LogPerformance(long[] times)

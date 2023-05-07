@@ -14,11 +14,11 @@ namespace Assignment.Services
     {
         public int[] InsertionSort(int[] numbers)
         {
-            Debug.WriteLine("Insertion sort");
-            foreach (int number in numbers)
-            {
-                System.Diagnostics.Debug.WriteLine(number);
-            }
+            //Debug.WriteLine("Insertion sort");
+            //foreach (int number in numbers)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(number);
+            //}
             int currentElement, iterationIndex;
 
             for (int i = 1; i < numbers.Length; ++i)
